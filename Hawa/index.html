@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Test</title>
+</head>
+<body>
+    <input type="text" id="username" placeholder="Enter username"/>
+    <input type="text" id="password" placeholder="Enter password"/>
+    <input type="file" id="image"/>
+
+    <button type="submit" id="login">Login</button>
+    <button type="submit" id="register">Register</button>
+    <button type="submit" id="viewDetails">View All</button>
+</body>
+    <script>
+        window.onload = function(){
+            const url = 'http://localhost:3000/test'
+            const btnLogin = document.getElementById('login')
+            const btnRegister = document.getElementById('register')
+            const btnViewDetails = document.getElementById('viewDetails')
+
+            btnLogin.addEventListener('click', userLogin);
+            btnRegister.addEventListener('click', userRegister);
+
+            async function userLogin(event){
+                const username = document.getElementById('username').value
+                const password = document.getElementById('password').value
+                const image = document.getElementById('image').value
+
+                const data = await fetch(url+'/login',{
+                    method:'POST',
+                    headers:{
+                        'Content-type':'application/json'
+                    },
+                    body: JSON.stringify({
+                        username: username,
+                        password: password,
+                        image: image
+                    })
+                })
+                const json = await data.json();
+
+                if(json.success === true){
+                    alert("Welcome you are logged in.")
+                }else{
+                    alert(username +"" + password)
+                }
+            }
+
+            async function userRegister(event){
+                const username = document.getElementById('username').value
+                const password = document.getElementById('password').value
+
+                const data = await fetch(url,{
+                    method:'POST',
+                    headers:{
+                        'Content-type':'application/json'
+                    },
+                    body: JSON.stringify({
+                        username: username,
+                        password: password
+                    })
+                })
+                const json = await data.json();
+
+                if(json.result = true){
+                    alert("Registered Successfully")
+                }
+            }
+        }
+    </script>
+</html>
